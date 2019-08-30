@@ -10,35 +10,40 @@ public class Solution {
 
     // Complete the arrayManipulation function below.
     static long arrayManipulation(int n, int[][] queries) {
-    	int lIndex, rIndex, sumValue, maxValue = 0;
-    	
-    	int[] valuesArray = new int[n];
-    	Arrays.fill(valuesArray, 0);
+        int[] valuesArray = new int[n];
+        Arrays.fill(valuesArray, 0);
 
-    	for (int i = 0; i < queries.length; i++) {
-    		lIndex   = queries[i][0];
-    		rIndex   = queries[i][1];
-    		sumValue = queries[i][2];
-    		
-    		for (int j = lIndex; j < rIndex; j++) {
-    			valuesArray[j] = valuesArray[j] + sumValue;
-			}
-		}
-    	
-    	for (int i = 0; i < valuesArray.length; i++) {
-			if (valuesArray[i] > maxValue) {
-				maxValue = valuesArray[i];
-			}
-		}
-    	System.out.println(maxValue);
-		return maxValue;
+        for (int i = 0; i < queries.length; i++) {
+            processArray(valuesArray, queries[i]);
+        }
+        return maxArrayValue(valuesArray);
+    }
+
+    private static void processArray(int[] valuesArray, int[] query) {
+        int lIndex   = query[0] - 1;
+        int rIndex   = query[1] - 1;
+        int sumValue = query[2];
+
+        for (int j = lIndex; j <= rIndex; j++) {
+            valuesArray[j] = valuesArray[j] + sumValue;
+        }
+    }
+
+    private static long maxArrayValue(int[] valuesArray) {
+        int maxValue = 0;
+        for (int i = 0; i < valuesArray.length; i++) {
+            if (valuesArray[i] > maxValue) {
+                maxValue = valuesArray[i];
+            }
+        }
+
+        return maxValue;
     }
 
     private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws IOException {
-    	//System.getenv("OUTPUT_PATH");
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter("/output"));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
 
         String[] nm = scanner.nextLine().split(" ");
 
