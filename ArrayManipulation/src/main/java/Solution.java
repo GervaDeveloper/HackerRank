@@ -10,8 +10,7 @@ public class Solution {
 
     // Complete the arrayManipulation function below.
     static long arrayManipulation(int n, int[][] queries) {
-        int[] valuesArray = new int[n];
-        Arrays.fill(valuesArray, 0);
+        long[] valuesArray = new long[n + 2];
 
         for (int i = 0; i < queries.length; i++) {
             processArray(valuesArray, queries[i]);
@@ -19,22 +18,21 @@ public class Solution {
         return maxArrayValue(valuesArray);
     }
 
-    private static void processArray(int[] valuesArray, int[] query) {
+    private static void processArray(long[] valuesArray, int[] query) {
         int lIndex   = query[0] - 1;
         int rIndex   = query[1] - 1;
         int sumValue = query[2];
 
-        for (int j = lIndex; j <= rIndex; j++) {
-            valuesArray[j] = valuesArray[j] + sumValue;
-        }
+        valuesArray[ lIndex ] += sumValue;
+        valuesArray[ rIndex +1 ] -= sumValue;
     }
 
-    private static long maxArrayValue(int[] valuesArray) {
-        int maxValue = 0;
+    private static long maxArrayValue(long[] valuesArray) {
+        long maxValue = Long.MIN_VALUE;
+        long sum = 0;
         for (int i = 0; i < valuesArray.length; i++) {
-            if (valuesArray[i] > maxValue) {
-                maxValue = valuesArray[i];
-            }
+            sum += valuesArray[i];
+            maxValue = Math.max(sum, maxValue);
         }
 
         return maxValue;
